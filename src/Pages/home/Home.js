@@ -1,8 +1,8 @@
 import React from "react";
-import "./Home.scss";
+// import "./Home.scss";
 
 const Home = () => (
-  <div className="homepage">
+  <div className="home-container">
     <h1>Employee Management System</h1>
   </div>
 );
