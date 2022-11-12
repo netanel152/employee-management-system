@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import TableComponent from "../../Components/table/TableComponent";
+import TableComponent from "../../Components/table/TableManagerComponent";
 import AddEmployee from "../../Components/forms/AddEmployee";
 import "./AllEmployees.scss";
 const AllEmployees = () => {
