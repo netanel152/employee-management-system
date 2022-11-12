@@ -1,53 +1,37 @@
-import React from "react";
-import { Table, Button } from "react-bootstrap";
 import { connect } from "react-redux";
+import EmployeeService from "../../Services/EmployeeService";
+import EditEmployee from "../forms/EditEmployee";
+import {
+  setCurrentEditEmployee,
+  setEditModal,
+} from "../features/EmployeeSlice";
+import CustomTable from "./CustomTable";
 
-const TableComponent = (props) => {
-
-  const editUser = (employee) => {
-    alert("editUser");
+const TableComponent = ({
+  isManager,
+  setEditModal,
+  setCurrentEditEmployee,
+  showEditModal,
+  allEmployees,
+  allManagersData,
+}) => {
+  const editEmployee = (editEmployee) => {
+    setEditModal(true);
+    setCurrentEditEmployee(editEmployee);
   };
 
-  const deleteUser = (employee) => {
-    alert("deleteUser");
+  const deleteEmployee = (employeeId) => {
+    EmployeeService.deleteEmployeeById(employeeId);
   };
+
   return (
     <>
-      <Table>
-        <thead className="btn-primary">
-          <tr>
-            <th>Employee Id</th>
-            <th>Employee Name</th>
-            <th>Employee Role</th>
-            <th>Manager Name</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {props?.allEmployees?.map((employee) => (
-            <tr key={employee.employeeId}>
-              <td>{employee.employeeId}</td>
-              <td>{employee.employeeName}</td>
-              <td>{employee.employeeRole}</td>
-              <td>{employee.managerName}</td>
-              <td>
-                <Button
-                  variant="info"
-                  onClick={() => editUser(employee.UserId)}
-                >
-                  Edit
-                </Button>
-                <Button
-                  variant="danger"
-                  onClick={() => deleteUser(employee.UserId)}
-                >
-                  Delete
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+      <CustomTable
+        employees={isManager ? allManagersData : allEmployees}
+        editEmployee={editEmployee}
+        deleteEmployee={deleteEmployee}
+      />
+      {showEditModal && <EditEmployee />}
     </>
   );
 };
@@ -55,7 +39,14 @@ const TableComponent = (props) => {
 const mapStateToProps = (state) => {
   return {
     allEmployees: state.employeeActions.allEmployeesData,
+    allManagersData: state.employeeActions.allManagersData,
+    isManager: state.employeeActions.isManager,
+    showEditModal: state.employeeActions.showEditModal,
   };
 };
 
-export default connect(mapStateToProps)(TableComponent);
+const mapDispatchToProps = {
+  setCurrentEditEmployee,
+  setEditModal,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(TableComponent);

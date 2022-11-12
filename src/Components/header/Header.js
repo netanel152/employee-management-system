@@ -1,24 +1,33 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
-// import { ReactComponent as Logo } from "../../assets/crown.svg";
-
+import { useDispatch, connect } from "react-redux";
+import { setIsManager } from "../features/EmployeeSlice";
 import "./Header.scss";
 
-const Header = () => {
+const Header = (props) => {
+  const dispatch = useDispatch();
+  const handleChangeFlag = (bool) => {
+    dispatch(setIsManager(bool));
+  };
+
   return (
     <div className="header">
-      {/* <Link className="logo-container" to="/">
-      <Logo className="logo" />
-    </Link> */}
       <div className="options">
         <Link className="option" to="/">
           Home
         </Link>
-        <Link className="option" to="/all-employees">
+        <Link
+          className="option"
+          to="/all-employees"
+          onClick={() => handleChangeFlag(false)}
+        >
           All Employees
         </Link>
-        <Link className="option" to="/management-employee">
+        <Link
+          className="option"
+          to="/management-employee"
+          onClick={() => handleChangeFlag(true)}
+        >
           Management Employee
         </Link>
       </div>
@@ -26,4 +35,10 @@ const Header = () => {
   );
 };
 
-export default Header;
+const mapStateToProps = (state) => {
+  return {
+    isManager: state.employeeActions.isManager,
+  };
+};
+
+export default connect(mapStateToProps)(Header);

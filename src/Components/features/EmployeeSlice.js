@@ -3,9 +3,12 @@ import { createSlice } from "@reduxjs/toolkit";
 export const EmployeeSlice = createSlice({
   name: "employeeActions",
   initialState: {
-    allEmployeesData: [{}],
+    allEmployeesData: [],
     allManagersData: [],
     newEmployee: {},
+    isManager: false,
+    currentEditEmployee: {},
+    showEditModal: false,
   },
   reducers: {
     setAllEmployeesData: (state, action) => {
@@ -17,10 +20,24 @@ export const EmployeeSlice = createSlice({
     setNewEmployee: (state, action) => {
       state.newEmployee = action.payload;
     },
+    setIsManager: (state, action) => {
+      state.isManager = action.payload;
+    },
+    setCurrentEditEmployee: (state, action) => {
+      state.currentEditEmployee = action.payload;
+    },
+    setEditModal: (state, action) => {
+      state.showEditModal = action.payload;
+    },
   },
 });
 
-export const { setAllEmployeesData, setAllManagersData } =
-  EmployeeSlice.actions;
+export const {
+  setAllEmployeesData,
+  setAllManagersData,
+  setIsManager,
+  setCurrentEditEmployee,
+  setEditModal,
+} = EmployeeSlice.actions;
 
 export default EmployeeSlice.reducer;
