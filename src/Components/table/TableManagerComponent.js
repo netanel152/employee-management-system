@@ -20,8 +20,11 @@ const TableManagerComponent = ({
   const editEmployee = (editEmployee) => {
     setEditModal(true);
     setCurrentEditEmployee(editEmployee);
-    getAllEmployee(dispatch);
-    getAllManagers(dispatch);
+    if (isManager) {
+      getAllManagers(dispatch);
+    } else {
+      getAllEmployee(dispatch);
+    }
   };
 
   const deleteEmployee = async (employeeId) => {
