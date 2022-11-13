@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import {
+  getAllEmployee,
+  getAllManagers,
+} from "../../Components/features/EmployeeSlice";
 import "./Home.scss";
+const Home = (props) => {
+  useEffect(() => {
+    props.getAllManagers();
+    props.getAllEmployee();
+  }, [props.isManager]);
 
-const Home = () => {
   return (
     <div className="home-container">
       <h1>Employee Management System</h1>
@@ -9,4 +18,15 @@ const Home = () => {
   );
 };
 
-export default Home;
+const mapStateToProps = (state) => {
+  return {
+    isManager: state.employeeActions.isManager,
+  };
+};
+
+const mapDispatchToProps = {
+  getAllEmployee,
+  getAllManagers,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

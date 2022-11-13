@@ -1,12 +1,13 @@
-import { connect, useDispatch } from "react-redux";
-import EmployeeService from "../../Services/EmployeeService";
+import { connect } from "react-redux";
 import EditEmployee from "../forms/EditEmployee";
 import {
+  getAllEmployee,
+  getAllManagers,
   setCurrentEditEmployee,
   setEditModal,
+  deleteExistEmployee,
 } from "../features/EmployeeSlice";
 import CustomTable from "./CustomTable";
-import { getAllEmployee, getAllManagers } from "../../App";
 
 const TableManagerComponent = ({
   isManager,
@@ -15,25 +16,27 @@ const TableManagerComponent = ({
   showEditModal,
   allEmployees,
   allManagersData,
+  deleteExistEmployee,
+  getAllEmployee,
 }) => {
-  const dispatch = useDispatch();
   const editEmployee = (editEmployee) => {
     setEditModal(true);
     setCurrentEditEmployee(editEmployee);
     if (isManager) {
-      getAllManagers(dispatch);
+      getAllManagers();
     } else {
-      getAllEmployee(dispatch);
+      getAllEmployee();
     }
   };
 
   const deleteEmployee = async (employeeId) => {
-    EmployeeService.deleteEmployeeById(employeeId);
-    if (isManager) {
-      getAllManagers(dispatch);
-    } else {
-      getAllEmployee(dispatch);
-    }
+    deleteExistEmployee(employeeId);
+    getAllEmployee();
+    // if (isManager) {
+    //   getAllManagers();
+    // } else {
+    //   getAllEmployee();
+    // }
   };
 
   return (
@@ -58,6 +61,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
+  getAllEmployee,
+  deleteExistEmployee,
   setCurrentEditEmployee,
   setEditModal,
 };

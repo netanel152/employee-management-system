@@ -1,5 +1,4 @@
 import { Table, Button } from "react-bootstrap";
-
 const CustomTable = ({ employees, editEmployee, deleteEmployee }) => {
   return (
     <Table>
@@ -20,7 +19,11 @@ const CustomTable = ({ employees, editEmployee, deleteEmployee }) => {
             <td>{employee.employeeRole}</td>
             <td>{employee.managerName}</td>
             <td>
-              <Button variant="info" onClick={() => editEmployee(employee)}>
+              <Button
+                style={{ margin: "0 10px" }}
+                variant="info"
+                onClick={() => editEmployee(employee)}
+              >
                 Edit
               </Button>
               <Button

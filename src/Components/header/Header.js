@@ -4,7 +4,7 @@ import { useDispatch, connect } from "react-redux";
 import { setIsManager } from "../features/EmployeeSlice";
 import "./Header.scss";
 
-const Header = (props) => {
+const Header = () => {
   const dispatch = useDispatch();
   const handleChangeFlag = (bool) => {
     dispatch(setIsManager(bool));

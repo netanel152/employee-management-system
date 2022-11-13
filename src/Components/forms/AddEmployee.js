@@ -1,11 +1,9 @@
 import React from "react";
-import EmployeeService from "../../Services/EmployeeService";
+import { connect } from "react-redux";
 import { useForm } from "react-hook-form";
-import { getAllEmployee } from "../../App";
-import { useDispatch } from "react-redux";
+import { getAllEmployee, addNewEmployee } from "../features/EmployeeSlice";
 
-const AddEmployee = () => {
-  const dispatch = useDispatch();
+const AddEmployee = (props) => {
   const {
     register,
     handleSubmit,
@@ -14,9 +12,9 @@ const AddEmployee = () => {
   } = useForm();
 
   const onSubmit = async (newEmployee) => {
-    await EmployeeService.addNewEmployee(newEmployee);
-    getAllEmployee(dispatch);
+    await props.addNewEmployee(newEmployee);
     reset(newEmployee);
+    props.getAllEmployee();
   };
 
   return (
@@ -34,24 +32,30 @@ const AddEmployee = () => {
           minLength={9}
           maxLength={9}
         />
-        {errors.employeeId && <span>This field is required</span>}
+        {errors.employeeId && (
+          <span className="errors-text">This field is required</span>
+        )}
         <br />
         {errors.employeeId && errors.employeeId.type === "maxLength" && (
-          <span>Length id is not correct</span>
+          <span className="errors-text">Length id is not correct</span>
         )}
         {errors.employeeId && errors.employeeId?.message && (
-          <span>{errors.employeeId?.message}</span>
+          <span className="errors-text">{errors.employeeId?.message}</span>
         )}
         <input
           placeholder="employee name"
           {...register("employeeName", { required: true, maxLength: 50 })}
         />
-        {errors.employeeName && <span>This field is required</span>}
+        {errors.employeeName && (
+          <span className="errors-text">This field is required</span>
+        )}
         <input
           placeholder="employee role"
           {...register("employeeRole", { required: true })}
         />
-        {errors.employeeRole && <span>This field is required</span>}
+        {errors.employeeRole && (
+          <span className="errors-text">This field is required</span>
+        )}
 
         <input placeholder="manager name" {...register("managerName")} />
 
@@ -61,4 +65,13 @@ const AddEmployee = () => {
   );
 };
 
-export default AddEmployee;
+const mapStateToProps = (state) => {
+  return {};
+};
+
+const mapDispatchToProps = {
+  getAllEmployee,
+  addNewEmployee,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddEmployee);

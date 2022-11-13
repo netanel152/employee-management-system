@@ -1,16 +1,64 @@
 import axios from "axios";
 import { api } from "../utils";
 
-const getAllEmployeesContent = () => {
-  return axios.get(api + "employees");
+export const getAllEmployeesContent = () => {
+  return axios.get(api + "employees").then(
+    (response) => {
+      let employeeArray = [];
+      for (let index = 0; index < response.data.length; index++) {
+        employeeArray.push({
+          employeeId: response.data[index].employeeId,
+          employeeName: response.data[index].employeeName,
+          employeeRole: response.data[index].employeeRole,
+          managerName: response.data[index].managerName,
+        });
+      }
+      if (employeeArray !== null || employeeArray !== undefined) {
+        return employeeArray;
+      }
+    },
+    (error) => {
+      const _dataList =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return _dataList;
+    }
+  );
 };
 
-const getAllManagersContent = () => {
-  return axios.get(api + "managers");
+export const getAllManagersContent = () => {
+  return axios.get(api + "managers").then(
+    (response) => {
+      let managerArray = [];
+      for (let index = 0; index < response.data.length; index++) {
+        managerArray.push({
+          employeeId: response.data[index].employeeId,
+          employeeName: response.data[index].employeeName,
+          employeeRole: response.data[index].employeeRole,
+          managerName: response.data[index].managerName,
+        });
+      }
+      if (managerArray !== null || managerArray !== undefined) {
+        return managerArray;
+      }
+    },
+    (error) => {
+      const _dataList =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return _dataList;
+    }
+  );
 };
 
-const addNewEmployee = (newEmployee) => {
-  return axios.post(api + "add_new_employee", {
+export const addNewEmployeeAPI = (newEmployee) => {
+  axios.post(api + "add_new_employee", {
     employeeId: newEmployee.employeeId,
     employeeName: newEmployee.employeeName,
     employeeRole: newEmployee.employeeRole,
@@ -18,8 +66,8 @@ const addNewEmployee = (newEmployee) => {
   });
 };
 
-const editEmployeeByObject = (employee) => {
-  axios.post(api + "edit_employee", {
+export const editEmployeeAPI = async (employee) => {
+  await axios.post(api + "edit_employee", {
     employeeId: employee.employeeId,
     employeeName: employee.employeeName,
     employeeRole: employee.employeeRole,
@@ -27,14 +75,14 @@ const editEmployeeByObject = (employee) => {
   });
 };
 
-const deleteEmployeeById = (employeeId) => {
+export const deleteEmployeeAPI = (employeeId) => {
   axios.post(api + "delete_employee/" + employeeId);
 };
 
-export default {
-  getAllEmployeesContent,
-  addNewEmployee,
-  deleteEmployeeById,
-  editEmployeeByObject,
-  getAllManagersContent,
-};
+// export {
+//   getAllEmployeesContent,
+//   addNewEmployee,
+//   deleteEmployeeById,
+//   editEmployeeByObject,
+//   getAllManagersContent,
+// };

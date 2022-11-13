@@ -1,14 +1,14 @@
 import Modal from "react-bootstrap/Modal";
-import EmployeeService from "../../Services/EmployeeService";
 import { connect } from "react-redux";
 import {
-  setCurrentEditEmployee,
+  getAllEmployee,
+  getAllManagers,
   setEditModal,
+  editEmployee,
 } from "../features/EmployeeSlice";
 import { useForm } from "react-hook-form";
 
 const EditEmployee = (props) => {
-  console.log("props.currentEditEmployee==>", props.currentEditEmployee);
   const {
     register,
     handleSubmit,
@@ -22,14 +22,19 @@ const EditEmployee = (props) => {
 
   const onSubmit = (editEmployee) => {
     editEmployee.employeeId = props.currentEditEmployee.employeeId;
-    EmployeeService.editEmployeeByObject(editEmployee);
+    props.editEmployee(editEmployee);
     reset(editEmployee);
     props.setEditModal(false);
+    if (props.isManager) {
+      props.getAllManagers();
+    } else {
+      props.getAllEmployee();
+    }
   };
 
   return (
     <>
-      <Modal show={props.showEditModal} onHide={handleClose}>
+      <Modal show={props.showEditModal} onHide={handleClose} backdrop={false}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Employee</Modal.Title>
         </Modal.Header>
@@ -42,20 +47,26 @@ const EditEmployee = (props) => {
                 disabled: true,
               })}
             />
-            {errors.employeeId && <span>This field is required</span>}
+            {errors.employeeId && (
+              <span className="errors-text">This field is required</span>
+            )}
             <input
               placeholder="employee name"
               {...register("employeeName", { required: true, maxLength: 50 })}
             />
-            {errors.employeeName && <span>This field is required</span>}
+            {errors.employeeName && (
+              <span className="errors-text">This field is required</span>
+            )}
             <input
               placeholder="employee role"
               {...register("employeeRole", { required: true })}
             />
-            {errors.employeeRole && <span>This field is required</span>}
+            {errors.employeeRole && (
+              <span className="errors-text">This field is required</span>
+            )}
 
             <input placeholder="manager name" {...register("managerName")} />
-            <input type="submit" text="Send" />
+            <input type="submit" />
           </form>
         </Modal.Body>
       </Modal>
@@ -67,12 +78,15 @@ const mapStateToProps = (state) => {
   return {
     currentEditEmployee: state.employeeActions.currentEditEmployee,
     showEditModal: state.employeeActions.showEditModal,
+    isManager: state.employeeActions.isManager,
   };
 };
 
 const mapDispatchToProps = {
-  setCurrentEditEmployee,
   setEditModal,
+  editEmployee,
+  getAllEmployee,
+  getAllManagers,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditEmployee);

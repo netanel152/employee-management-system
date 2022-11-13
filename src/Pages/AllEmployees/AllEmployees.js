@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TableComponent from "../../Components/table/TableManagerComponent";
 import AddEmployee from "../../Components/forms/AddEmployee";
+import { connect } from "react-redux";
+
 import "./AllEmployees.scss";
-const AllEmployees = () => {
+import { getAllEmployee } from "../../Components/features/EmployeeSlice";
+const AllEmployees = (props) => {
   const [showAddEmployeeForm, setAddEmployeeForm] = useState(false);
+
+  useEffect(() => {
+    props.getAllEmployee();
+  }, [props.isManager]);
 
   return (
     <div className="all-employees-data-container">
@@ -26,5 +33,14 @@ const AllEmployees = () => {
     </div>
   );
 };
+const mapStateToProps = (state) => {
+  return {
+    isManager: state.employeeActions.isManager,
+  };
+};
 
-export default AllEmployees;
+const mapDispatchToProps = {
+  getAllEmployee,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AllEmployees);
