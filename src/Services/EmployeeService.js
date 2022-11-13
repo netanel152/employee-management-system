@@ -1,7 +1,7 @@
 import axios from "axios";
 import { api } from "../utils";
 
-export const getAllEmployeesContent = () => {
+export const getAllEmployeesAPI = () => {
   return axios.get(api + "employees").then(
     (response) => {
       let employeeArray = [];
@@ -29,7 +29,7 @@ export const getAllEmployeesContent = () => {
   );
 };
 
-export const getAllManagersContent = () => {
+export const getAllManagersAPI = () => {
   return axios.get(api + "managers").then(
     (response) => {
       let managerArray = [];
@@ -78,11 +78,3 @@ export const editEmployeeAPI = async (employee) => {
 export const deleteEmployeeAPI = (employeeId) => {
   axios.post(api + "delete_employee/" + employeeId);
 };
-
-// export {
-//   getAllEmployeesContent,
-//   addNewEmployee,
-//   deleteEmployeeById,
-//   editEmployeeByObject,
-//   getAllManagersContent,
-// };

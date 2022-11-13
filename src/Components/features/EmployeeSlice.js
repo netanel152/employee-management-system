@@ -1,17 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
-  getAllEmployeesContent,
-  getAllManagersContent,
+  getAllEmployeesAPI,
+  getAllManagersAPI,
   addNewEmployeeAPI,
   deleteEmployeeAPI,
-  editEmployeeAPI
+  editEmployeeAPI,
 } from "../../Services/EmployeeService";
 
 export const getAllEmployee = createAsyncThunk(
   "EmployeeSlice/getAllEmployee",
   async (data, thunkAPI) => {
     try {
-      const res = await getAllEmployeesContent();
+      const res = await getAllEmployeesAPI();
       return res;
     } catch (error) {}
   }
@@ -21,7 +21,7 @@ export const getAllManagers = createAsyncThunk(
   "EmployeeSlice/getAllManagers",
   async (data, thunkAPI) => {
     try {
-      const res = await getAllManagersContent();
+      const res = await getAllManagersAPI();
       return res;
     } catch (error) {}
   }
@@ -91,13 +91,11 @@ export const EmployeeSlice = createSlice({
     },
   },
   extraReducers: {
-    [getAllEmployee.pending]: (state, action) => {
-    },
+    [getAllEmployee.pending]: (state, action) => {},
     [getAllEmployee.fulfilled]: (state, action) => {
       state.allEmployeesData = action.payload;
     },
-    [getAllManagers.pending]: (state, action) => {
-    },
+    [getAllManagers.pending]: (state, action) => {},
     [getAllManagers.fulfilled]: (state, action) => {
       state.allManagersData = action.payload;
     },
