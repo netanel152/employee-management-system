@@ -1,8 +1,7 @@
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import EditEmployee from "../forms/EditEmployee";
 import {
-  getAllEmployee,
-  getAllManagers,
   setCurrentEditEmployee,
   setEditModal,
   deleteExistEmployee,
@@ -15,34 +14,24 @@ const TableManagerComponent = ({
   setCurrentEditEmployee,
   showEditModal,
   allEmployees,
-  allManagersData,
+  allManagers,
   deleteExistEmployee,
-  getAllEmployee,
 }) => {
+  useEffect(() => { }, [allEmployees, allManagers]);
+
   const editEmployee = (editEmployee) => {
     setEditModal(true);
     setCurrentEditEmployee(editEmployee);
-    if (isManager) {
-      getAllManagers();
-    } else {
-      getAllEmployee();
-    }
   };
 
-  const deleteEmployee = async (employeeId) => {
+  const deleteEmployee = (employeeId) => {
     deleteExistEmployee(employeeId);
-    getAllEmployee();
-    // if (isManager) {
-    //   getAllManagers();
-    // } else {
-    //   getAllEmployee();
-    // }
   };
 
   return (
     <>
       <CustomTable
-        employees={isManager ? allManagersData : allEmployees}
+        employees={isManager ? allManagers : allEmployees}
         editEmployee={editEmployee}
         deleteEmployee={deleteEmployee}
       />
@@ -54,14 +43,13 @@ const TableManagerComponent = ({
 const mapStateToProps = (state) => {
   return {
     allEmployees: state.employeeActions.allEmployeesData,
-    allManagersData: state.employeeActions.allManagersData,
+    allManagers: state.employeeActions.allManagersData,
     isManager: state.employeeActions.isManager,
     showEditModal: state.employeeActions.showEditModal,
   };
 };
 
 const mapDispatchToProps = {
-  getAllEmployee,
   deleteExistEmployee,
   setCurrentEditEmployee,
   setEditModal,

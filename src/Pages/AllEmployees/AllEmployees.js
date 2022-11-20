@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import TableComponent from "../../Components/table/TableManagerComponent";
+import TableManagerComponent from "../../Components/table/TableManagerComponent";
 import AddEmployee from "../../Components/forms/AddEmployee";
 import { connect } from "react-redux";
 
@@ -10,7 +10,7 @@ const AllEmployees = (props) => {
 
   useEffect(() => {
     props.getAllEmployee();
-  }, [props.isManager]);
+  }, [props.isManager, props.allEmployees]);
 
   return (
     <div className="all-employees-data-container">
@@ -18,7 +18,7 @@ const AllEmployees = (props) => {
         <h1>All Employees</h1>
       </div>
       <div className="table-container">
-        <TableComponent />
+        <TableManagerComponent />
       </div>
       <div className="add-button-container">
         <button
@@ -29,12 +29,13 @@ const AllEmployees = (props) => {
           Add new Employee
         </button>
       </div>
-      {showAddEmployeeForm && <AddEmployee />}
+      {showAddEmployeeForm && <AddEmployee setAddEmployeeForm={(bool) => setAddEmployeeForm(bool)} />}
     </div>
   );
 };
 const mapStateToProps = (state) => {
   return {
+    allEmployees: state.employeeActions.allEmployeesData,
     isManager: state.employeeActions.isManager,
   };
 };

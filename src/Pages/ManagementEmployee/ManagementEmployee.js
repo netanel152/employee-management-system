@@ -9,7 +9,7 @@ const ManagementEmployee = (props) => {
 
   useEffect(() => {
     props.getAllManagers();
-  }, [props.isManager]);
+  }, [props.isManager, props.allManagers]);
 
   return (
     <div className="all-managers-data-container">
@@ -35,6 +35,7 @@ const ManagementEmployee = (props) => {
 
 const mapStateToProps = (state) => {
   return {
+    allManagers: state.employeeActions.allManagersData,
     isManager: state.employeeActions.isManager,
   };
 };

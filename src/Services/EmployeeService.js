@@ -1,5 +1,5 @@
 import axios from "axios";
-import { api } from "../utils";
+import { api } from "../utils/apiURL";
 
 export const getAllEmployeesAPI = () => {
   return axios.get(api + "employees").then(
@@ -76,5 +76,5 @@ export const editEmployeeAPI = async (employee) => {
 };
 
 export const deleteEmployeeAPI = (employeeId) => {
-  axios.post(api + "delete_employee/" + employeeId);
+  axios.delete(api + "delete_employee/" + employeeId);
 };

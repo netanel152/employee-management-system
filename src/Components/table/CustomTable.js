@@ -12,7 +12,7 @@ const CustomTable = ({ employees, editEmployee, deleteEmployee }) => {
         </tr>
       </thead>
       <tbody>
-        {employees.map((employee) => (
+        {employees?.map((employee) => (
           <tr key={employee.employeeId}>
             <td>{employee.employeeId}</td>
             <td>{employee.employeeName}</td>
@@ -37,7 +37,7 @@ const CustomTable = ({ employees, editEmployee, deleteEmployee }) => {
         ))}
       </tbody>
     </Table>
-  );
+  )
 };
 
 export default CustomTable;

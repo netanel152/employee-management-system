@@ -12,8 +12,13 @@ export const getAllEmployee = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const res = await getAllEmployeesAPI();
+      if (res == null) {
+        return null
+      }
       return res;
-    } catch (error) {}
+    } catch (error) {
+      console.log("getAllEmployeesAPI==>response error", error);
+    }
   }
 );
 
@@ -23,7 +28,9 @@ export const getAllManagers = createAsyncThunk(
     try {
       const res = await getAllManagersAPI();
       return res;
-    } catch (error) {}
+    } catch (error) {
+      console.log("getAllManagersAPI==>response error", error);
+    }
   }
 );
 
@@ -31,10 +38,13 @@ export const addNewEmployee = createAsyncThunk(
   "EmployeeSlice/addNewEmployee",
   async (data, thunkAPI) => {
     try {
-      const res = await addNewEmployeeAPI(data);
+      const res = addNewEmployeeAPI(data);
       thunkAPI.dispatch(getAllEmployee());
+      thunkAPI.dispatch(getAllManagers());
       return res;
-    } catch (error) {}
+    } catch (error) {
+      console.log("addNewEmployeeAPI==>response error", error);
+    }
   }
 );
 
@@ -44,8 +54,12 @@ export const deleteExistEmployee = createAsyncThunk(
     try {
       const res = deleteEmployeeAPI(data);
       thunkAPI.dispatch(getAllEmployee());
+      thunkAPI.dispatch(getAllManagers());
       return res;
-    } catch (error) {}
+    } catch (error) {
+      console.log("deleteEmployeeAPI==>response error", error);
+
+    }
   }
 );
 
@@ -55,8 +69,11 @@ export const editEmployee = createAsyncThunk(
     try {
       const res = await editEmployeeAPI(data);
       thunkAPI.dispatch(getAllEmployee());
+      thunkAPI.dispatch(getAllManagers());
       return res;
-    } catch (error) {}
+    } catch (error) {
+      console.log("editEmployeeAPI==>response error", error);
+    }
   }
 );
 
@@ -91,11 +108,11 @@ export const EmployeeSlice = createSlice({
     },
   },
   extraReducers: {
-    [getAllEmployee.pending]: (state, action) => {},
+    [getAllEmployee.pending]: (state, action) => { },
     [getAllEmployee.fulfilled]: (state, action) => {
       state.allEmployeesData = action.payload;
     },
-    [getAllManagers.pending]: (state, action) => {},
+    [getAllManagers.pending]: (state, action) => { },
     [getAllManagers.fulfilled]: (state, action) => {
       state.allManagersData = action.payload;
     },

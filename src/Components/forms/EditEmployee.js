@@ -1,8 +1,6 @@
 import Modal from "react-bootstrap/Modal";
 import { connect } from "react-redux";
 import {
-  getAllEmployee,
-  getAllManagers,
   setEditModal,
   editEmployee,
 } from "../features/EmployeeSlice";
@@ -13,23 +11,17 @@ const EditEmployee = (props) => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm();
 
   const handleClose = () => {
     props.setEditModal(false);
   };
 
-  const onSubmit = (editEmployee) => {
+  const onSubmit = (editEmployee, e) => {
     editEmployee.employeeId = props.currentEditEmployee.employeeId;
     props.editEmployee(editEmployee);
-    reset(editEmployee);
+    e.target.reset();
     props.setEditModal(false);
-    if (props.isManager) {
-      props.getAllManagers();
-    } else {
-      props.getAllEmployee();
-    }
   };
 
   return (
@@ -85,8 +77,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   setEditModal,
   editEmployee,
-  getAllEmployee,
-  getAllManagers,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditEmployee);

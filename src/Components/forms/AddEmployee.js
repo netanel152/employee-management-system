@@ -1,20 +1,19 @@
 import React from "react";
 import { connect } from "react-redux";
 import { useForm } from "react-hook-form";
-import { getAllEmployee, addNewEmployee } from "../features/EmployeeSlice";
+import { addNewEmployee } from "../features/EmployeeSlice";
 
 const AddEmployee = (props) => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (newEmployee) => {
+  const onSubmit = async (newEmployee, e) => {
     await props.addNewEmployee(newEmployee);
-    reset(newEmployee);
-    props.getAllEmployee();
+    e.target.reset();
+    props.setAddEmployeeForm(false)
   };
 
   return (
@@ -70,7 +69,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  getAllEmployee,
   addNewEmployee,
 };
 
